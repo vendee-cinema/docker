@@ -10,6 +10,7 @@ services:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - vendee-cinema
     healthcheck:
@@ -57,3 +58,4 @@ volumes:
 
 networks:
   vendee-cinema:
+    external: true
