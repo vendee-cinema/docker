@@ -120,6 +120,30 @@ services:
     networks:
       - vendee-cinema
 
+  loki:
+    container_name: loki
+    image: grafana/loki:latest
+    restart: unless-stopped
+    volumes:
+      - './loki-config.yml:/etc/loki/config.yaml'
+      - './loki-data:/loki'
+      - './loki-wal:/wal'
+    command: -config.file=/etc/loki/config.yaml
+    ports:
+      - '3100:3100'
+    networks:
+      - vendee-cinema
+
+  promtail:
+    container_name: promtail
+    image: grafana/promtail:latest
+    volumes:
+      - './promtail-config.yml:/etc/promtail/config.yml'
+      - '../logs:/var/log/services'
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - vendee-cinema
+
   grafana:
     container_name: grafana
     image: grafana/grafana:latest
