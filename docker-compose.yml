@@ -19,6 +19,20 @@ services:
       timeout: 5s
       retries: 5
 
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - vendee-cinema
+
   redis:
     container_name: redis
     image: redis:8
@@ -159,6 +173,7 @@ services:
 
 volumes:
   postgres_data:
+  mongo_data:
   redis_data:
   rabbitmq_data:
   grafana-storage:
